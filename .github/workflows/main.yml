@@ -9,11 +9,9 @@ jobs:
       image: nixos/nix
     steps:
     - uses: actions/checkout@v2
+    - run: nix-env -i bash
     - name: Checkout submodules
-      shell: bash
-      env:
-        PATH: $PATH:/run/current-system/sw/bin
-      run: |
+      run: bash -c |
         auth_header="$(git config --local --get http.https://github.com/.extraheader)"
         git submodule sync --recursive
         git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
