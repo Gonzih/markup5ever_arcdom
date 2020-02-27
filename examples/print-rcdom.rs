@@ -18,7 +18,7 @@ use std::string::String;
 
 use html5ever::parse_document;
 use html5ever::tendril::TendrilSink;
-use rcdom::{Handle, NodeData, RcDom};
+use rcdom::{ArcDom, Handle, NodeData};
 
 // This is not proper HTML serialization, of course.
 
@@ -37,7 +37,7 @@ fn walk(indent: usize, handle: &Handle) {
 
         NodeData::Text { ref contents } => {
             println!("#text: {}", escape_default(&contents.borrow()))
-        },
+        }
 
         NodeData::Comment { ref contents } => println!("<!-- {} -->", escape_default(contents)),
 
@@ -53,7 +53,7 @@ fn walk(indent: usize, handle: &Handle) {
                 print!(" {}=\"{}\"", attr.name.local, attr.value);
             }
             println!(">");
-        },
+        }
 
         NodeData::ProcessingInstruction { .. } => unreachable!(),
     }
@@ -70,7 +70,7 @@ pub fn escape_default(s: &str) -> String {
 
 fn main() {
     let stdin = io::stdin();
-    let dom = parse_document(RcDom::default(), Default::default())
+    let dom = parse_document(ArcDom::default(), Default::default())
         .from_utf8()
         .read_from(&mut stdin.lock())
         .unwrap();

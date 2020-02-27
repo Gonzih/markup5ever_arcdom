@@ -1,12 +1,11 @@
 [package]
-name = "markup5ever_rcdom"
+name = "markup5ever_arcdom"
 version = "0.1.0"
-authors = [ "The html5ever Project Developers" ]
 license = "MIT / Apache-2.0"
-repository = "https://github.com/servo/html5ever"
-description = "Basic, unsupported DOM structure for use by tests in html5ever/xml5ever"
+repository = "https://github.com/Gonzih/markup5ever_arcdom"
+description = "Thread safe version of RcDom from html5ever project."
 readme = "README.md"
-documentation = "https://docs.rs/markup5ever_rcdom"
+documentation = "https://docs.rs/markup5ever_arcdom"
 categories = [ "parser-implementations", "web-programming" ]
 edition = "2018"
 publish = false

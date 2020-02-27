@@ -25,7 +25,7 @@ use html5ever::driver::ParseOpts;
 use html5ever::tendril::TendrilSink;
 use html5ever::tree_builder::TreeBuilderOpts;
 use html5ever::{parse_document, serialize};
-use rcdom::{RcDom, SerializableHandle};
+use rcdom::{ArcDom, SerializableHandle};
 
 fn main() {
     let opts = ParseOpts {
@@ -36,7 +36,7 @@ fn main() {
         ..Default::default()
     };
     let stdin = io::stdin();
-    let dom = parse_document(RcDom::default(), opts)
+    let dom = parse_document(ArcDom::default(), opts)
         .from_utf8()
         .read_from(&mut stdin.lock())
         .unwrap();

@@ -28,7 +28,7 @@ use test::{DynTestName, TestDesc, TestDescAndFn, TestFn};
 use html5ever::tendril::{StrTendril, TendrilSink};
 use html5ever::{parse_document, parse_fragment, ParseOpts};
 use html5ever::{LocalName, QualName};
-use rcdom::{Handle, NodeData, RcDom};
+use rcdom::{Handle, NodeData, ArcDom};
 
 fn parse_tests<It: Iterator<Item = String>>(mut lines: It) -> Vec<HashMap<String, String>> {
     let mut tests = vec![];
@@ -219,13 +219,13 @@ fn make_test_desc_with_scripting_flag(
             let mut result = String::new();
             match context {
                 None => {
-                    let dom = parse_document(RcDom::default(), opts).one(data.clone());
+                    let dom = parse_document(ArcDom::default(), opts).one(data.clone());
                     for child in dom.document.children.borrow().iter() {
                         serialize(&mut result, 1, child.clone());
                     }
                 },
                 Some(ref context) => {
-                    let dom = parse_fragment(RcDom::default(), opts, context.clone(), vec![])
+                    let dom = parse_fragment(ArcDom::default(), opts, context.clone(), vec![])
                         .one(data.clone());
                     // fragment case: serialize children of the html element
                     // rather than children of the document

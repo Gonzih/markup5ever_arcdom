@@ -191,7 +191,7 @@ fn make_xml_test(
         testfn: DynTestFn(Box::new(move || {
             let mut result = String::new();
 
-            let dom = parse_document(RcDom::default(), Default::default()).one(data.clone());
+            let dom = parse_document(ArcDom::default(), Default::default()).one(data.clone());
             for child in dom.document.children.borrow().iter() {
                 serialize(&mut result, 1, child.clone());
             }

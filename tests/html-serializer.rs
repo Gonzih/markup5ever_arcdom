@@ -13,7 +13,7 @@ use html5ever::tendril::{SliceExt, StrTendril, TendrilSink};
 use html5ever::tokenizer::{TagKind, Token, TokenSink, TokenSinkResult, Tokenizer};
 use html5ever::{parse_document, parse_fragment, serialize, QualName};
 use markup5ever::{local_name, namespace_url, ns};
-use markup5ever_rcdom::{RcDom, SerializableHandle};
+use markup5ever_rcdom::{ArcDom, SerializableHandle};
 
 use std::io;
 
@@ -88,7 +88,7 @@ fn tokenize_and_serialize(input: StrTendril) -> StrTendril {
 
 fn parse_and_serialize(input: StrTendril) -> StrTendril {
     let dom = parse_fragment(
-        RcDom::default(),
+        ArcDom::default(),
         ParseOpts::default(),
         QualName::new(None, ns!(html), local_name!("body")),
         vec![],
@@ -235,7 +235,7 @@ test_no_parse!(malformed_tokens, r#"foo</div><div>"#);
 
 #[test]
 fn doctype() {
-    let dom = parse_document(RcDom::default(), ParseOpts::default()).one("<!doctype html>");
+    let dom = parse_document(ArcDom::default(), ParseOpts::default()).one("<!doctype html>");
     dom.document.children.borrow_mut().truncate(1); // Remove <html>
     let mut result = vec![];
     let document: SerializableHandle = dom.document.clone().into();
@@ -246,7 +246,7 @@ fn doctype() {
 #[test]
 fn deep_tree() {
     let parser = parse_fragment(
-        RcDom::default(),
+        ArcDom::default(),
         ParseOpts::default(),
         QualName::new(None, ns!(html), local_name!("div")),
         vec![],

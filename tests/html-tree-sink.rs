@@ -5,13 +5,13 @@ use html5ever::ExpandedName;
 use html5ever::QualName;
 use markup5ever::interface::{ElementFlags, NodeOrText, QuirksMode, TreeSink};
 use markup5ever::{local_name, namespace_url, ns, Attribute};
-use markup5ever_rcdom::{Handle, RcDom};
+use markup5ever_rcdom::{Handle, ArcDom};
 use std::borrow::Cow;
 
 pub struct LineCountingDOM {
     pub line_vec: Vec<(QualName, u64)>,
     pub current_line: u64,
-    pub rcdom: RcDom,
+    pub rcdom: ArcDom,
 }
 
 impl TreeSink for LineCountingDOM {
@@ -120,7 +120,7 @@ fn check_four_lines() {
     let sink = LineCountingDOM {
         line_vec: vec![],
         current_line: 1,
-        rcdom: RcDom::default(),
+        rcdom: ArcDom::default(),
     };
     let mut result_tok = driver::parse_document(sink, Default::default());
     result_tok.process(StrTendril::from("<a>\n"));

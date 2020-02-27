@@ -15,7 +15,7 @@ use std::default::Default;
 use std::io;
 use std::string::String;
 
-use rcdom::{Handle, NodeData, RcDom};
+use rcdom::{ArcDom, Handle, NodeData};
 use xml5ever::driver::parse_document;
 use xml5ever::tendril::TendrilSink;
 
@@ -30,9 +30,9 @@ fn walk(prefix: &str, handle: &Handle) {
 
         NodeData::Element { ref name, .. } => {
             println!("{}", name.local);
-        },
+        }
 
-        _ => {},
+        _ => {}
     }
 
     let new_indent = {
@@ -64,11 +64,11 @@ fn main() {
 
     // To parse XML into a tree form, we need a TreeSink
     // luckily xml5ever comes with a static RC backed tree represetation.
-    let dom: RcDom = parse_document(RcDom::default(), Default::default())
+    let dom: ArcDom = parse_document(ArcDom::default(), Default::default())
         .from_utf8()
         .read_from(&mut stdin.lock())
         .unwrap();
 
-    // Execute our visualizer on RcDom
+    // Execute our visualizer on ArcDom
     walk("", &dom.document);
 }
