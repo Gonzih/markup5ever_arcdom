@@ -8,6 +8,7 @@ in pkgs.stdenv.mkDerivation rec {
     pkgconfig
     rustup
     cargo
+    git
     curl
   ];
 }
