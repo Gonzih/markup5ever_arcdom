@@ -36,3 +36,6 @@ AUTH_HEADER="$(shell git config --local --get http.https://github.com/.extrahead
 setup-git-for-github:
 	git submodule sync --recursive
 	git -c "http.extraheader=$(AUTH_HEADER)" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+
+test-via-docker:
+	docker run -t -v $(shell pwd):/workdir nixos/nix sh -c 'cd /workdir && nix-shell shell.nix --run "make rust-setup test"'
