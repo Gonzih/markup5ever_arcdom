@@ -10,4 +10,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: CI
-      run: nix-shell shell.nix --run 'make rust-setup test'
+      run: nix-shell shell.nix --run 'make submodules rust-setup test'
