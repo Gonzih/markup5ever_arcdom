@@ -9,6 +9,7 @@ in pkgs.stdenv.mkDerivation rec {
     rustup
     cargo
     git
+    bash
     curl
   ];
 }

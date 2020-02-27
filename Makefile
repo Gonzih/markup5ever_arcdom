@@ -31,3 +31,8 @@ publish:
 submodules:
 	git submodule init
 	git submodule update
+
+AUTH_HEADER="$(shell git config --local --get http.https://github.com/.extraheader)"
+setup-git-for-github:
+	git submodule sync --recursive
+	git -c "http.extraheader=$(AUTH_HEADER)" -c protocol.version=2 submodule update --init --force --recursive --depth=1
