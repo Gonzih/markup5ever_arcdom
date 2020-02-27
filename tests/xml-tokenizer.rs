@@ -94,17 +94,17 @@ impl TokenSink for TokenLogger {
         match token {
             CharacterTokens(b) => {
                 self.current_str.push_slice(&b);
-            },
+            }
 
             NullCharacterToken => {
                 self.current_str.push_char('\0');
-            },
+            }
 
             ParseError(_) => {
                 if self.exact_errors {
                     self.push(ParseError(Borrowed("")));
                 }
-            },
+            }
 
             TagToken(mut t) => {
                 // The spec seems to indicate that one can emit
@@ -113,11 +113,11 @@ impl TokenSink for TokenLogger {
                 match t.kind {
                     EndTag => {
                         t.attrs = vec![];
-                    },
+                    }
                     _ => t.attrs.sort_by(|a1, a2| a1.name.cmp(&a2.name)),
                 }
                 self.push(TagToken(t));
-            },
+            }
 
             EOFToken => (),
 
@@ -273,7 +273,7 @@ fn json_to_tokens(js: &Value, exact_errors: bool) -> Vec<Token> {
         match *tok {
             Value::String(ref s) if &s[..] == "ParseError" => {
                 sink.process_token(ParseError(Borrowed("")))
-            },
+            }
             _ => sink.process_token(json_to_token(tok)),
         }
     }
@@ -370,7 +370,7 @@ fn tests(src_dir: &Path) -> Vec<TestDescAndFn> {
                             test,
                         );
                     }
-                },
+                }
 
                 _ => (),
             }

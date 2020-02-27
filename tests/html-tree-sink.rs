@@ -5,13 +5,13 @@ use html5ever::ExpandedName;
 use html5ever::QualName;
 use markup5ever::interface::{ElementFlags, NodeOrText, QuirksMode, TreeSink};
 use markup5ever::{local_name, namespace_url, ns, Attribute};
-use markup5ever_rcdom::{Handle, ArcDom};
+use markup5ever_arcdom::{ArcDom, Handle};
 use std::borrow::Cow;
 
 pub struct LineCountingDOM {
     pub line_vec: Vec<(QualName, u64)>,
     pub current_line: u64,
-    pub rcdom: ArcDom,
+    pub arcdom: ArcDom,
 }
 
 impl TreeSink for LineCountingDOM {
@@ -24,27 +24,27 @@ impl TreeSink for LineCountingDOM {
     type Handle = Handle;
 
     fn parse_error(&mut self, msg: Cow<'static, str>) {
-        self.rcdom.parse_error(msg);
+        self.arcdom.parse_error(msg);
     }
 
     fn get_document(&mut self) -> Handle {
-        self.rcdom.get_document()
+        self.arcdom.get_document()
     }
 
     fn get_template_contents(&mut self, target: &Handle) -> Handle {
-        self.rcdom.get_template_contents(target)
+        self.arcdom.get_template_contents(target)
     }
 
     fn set_quirks_mode(&mut self, mode: QuirksMode) {
-        self.rcdom.set_quirks_mode(mode)
+        self.arcdom.set_quirks_mode(mode)
     }
 
     fn same_node(&self, x: &Handle, y: &Handle) -> bool {
-        self.rcdom.same_node(x, y)
+        self.arcdom.same_node(x, y)
     }
 
     fn elem_name<'a>(&'a self, target: &'a Handle) -> ExpandedName<'a> {
-        self.rcdom.elem_name(target)
+        self.arcdom.elem_name(target)
     }
 
     fn create_element(
@@ -54,23 +54,23 @@ impl TreeSink for LineCountingDOM {
         flags: ElementFlags,
     ) -> Handle {
         self.line_vec.push((name.clone(), self.current_line));
-        self.rcdom.create_element(name, attrs, flags)
+        self.arcdom.create_element(name, attrs, flags)
     }
 
     fn create_comment(&mut self, text: StrTendril) -> Handle {
-        self.rcdom.create_comment(text)
+        self.arcdom.create_comment(text)
     }
 
     fn create_pi(&mut self, target: StrTendril, content: StrTendril) -> Handle {
-        self.rcdom.create_pi(target, content)
+        self.arcdom.create_pi(target, content)
     }
 
     fn append(&mut self, parent: &Handle, child: NodeOrText<Handle>) {
-        self.rcdom.append(parent, child)
+        self.arcdom.append(parent, child)
     }
 
     fn append_before_sibling(&mut self, sibling: &Handle, child: NodeOrText<Handle>) {
-        self.rcdom.append_before_sibling(sibling, child)
+        self.arcdom.append_before_sibling(sibling, child)
     }
 
     fn append_based_on_parent_node(
@@ -79,7 +79,7 @@ impl TreeSink for LineCountingDOM {
         prev_element: &Handle,
         child: NodeOrText<Handle>,
     ) {
-        self.rcdom
+        self.arcdom
             .append_based_on_parent_node(element, prev_element, child)
     }
 
@@ -89,24 +89,24 @@ impl TreeSink for LineCountingDOM {
         public_id: StrTendril,
         system_id: StrTendril,
     ) {
-        self.rcdom
+        self.arcdom
             .append_doctype_to_document(name, public_id, system_id);
     }
 
     fn add_attrs_if_missing(&mut self, target: &Handle, attrs: Vec<Attribute>) {
-        self.rcdom.add_attrs_if_missing(target, attrs);
+        self.arcdom.add_attrs_if_missing(target, attrs);
     }
 
     fn remove_from_parent(&mut self, target: &Handle) {
-        self.rcdom.remove_from_parent(target);
+        self.arcdom.remove_from_parent(target);
     }
 
     fn reparent_children(&mut self, node: &Handle, new_parent: &Handle) {
-        self.rcdom.reparent_children(node, new_parent);
+        self.arcdom.reparent_children(node, new_parent);
     }
 
     fn mark_script_already_started(&mut self, target: &Handle) {
-        self.rcdom.mark_script_already_started(target);
+        self.arcdom.mark_script_already_started(target);
     }
 
     fn set_current_line(&mut self, line_number: u64) {
@@ -120,7 +120,7 @@ fn check_four_lines() {
     let sink = LineCountingDOM {
         line_vec: vec![],
         current_line: 1,
-        rcdom: ArcDom::default(),
+        arcdom: ArcDom::default(),
     };
     let mut result_tok = driver::parse_document(sink, Default::default());
     result_tok.process(StrTendril::from("<a>\n"));

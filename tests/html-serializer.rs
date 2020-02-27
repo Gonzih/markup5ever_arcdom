@@ -13,7 +13,7 @@ use html5ever::tendril::{SliceExt, StrTendril, TendrilSink};
 use html5ever::tokenizer::{TagKind, Token, TokenSink, TokenSinkResult, Tokenizer};
 use html5ever::{parse_document, parse_fragment, serialize, QualName};
 use markup5ever::{local_name, namespace_url, ns};
-use markup5ever_rcdom::{ArcDom, SerializableHandle};
+use markup5ever_arcdom::{ArcDom, SerializableHandle};
 
 use std::io;
 
@@ -49,14 +49,14 @@ impl Serialize for Tokens {
                         )?,
                         TagKind::EndTag => serializer.end_elem(name)?,
                     }
-                },
+                }
                 &Token::DoctypeToken(ref dt) => match dt.name {
                     Some(ref name) => serializer.write_doctype(&name)?,
-                    None => {},
+                    None => {}
                 },
                 &Token::CommentToken(ref chars) => serializer.write_comment(&chars)?,
                 &Token::CharacterTokens(ref chars) => serializer.write_text(&chars)?,
-                &Token::NullCharacterToken | &Token::EOFToken => {},
+                &Token::NullCharacterToken | &Token::EOFToken => {}
                 &Token::ParseError(ref e) => println!("parse error: {:#?}", e),
             }
         }

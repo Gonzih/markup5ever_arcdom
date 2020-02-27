@@ -1,7 +1,7 @@
 use html5ever::driver;
 use html5ever::serialize;
 use html5ever::tendril::TendrilSink;
-use markup5ever_rcdom::{ArcDom, SerializableHandle};
+use markup5ever_arcdom::{ArcDom, SerializableHandle};
 
 #[test]
 fn from_utf8() {

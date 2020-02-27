@@ -1,4 +1,4 @@
-use markup5ever_rcdom::{ArcDom, SerializableHandle};
+use markup5ever_arcdom::{ArcDom, SerializableHandle};
 use xml5ever::driver;
 use xml5ever::serialize;
 use xml5ever::tendril::TendrilSink;

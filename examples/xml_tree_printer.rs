@@ -8,14 +8,14 @@
 //! xml5ever = "0.2.0"
 //! tendril = "0.1.3"
 //! ```
-extern crate markup5ever_rcdom as rcdom;
+extern crate markup5ever_arcdom as arcdom;
 extern crate xml5ever;
 
 use std::default::Default;
 use std::io;
 use std::string::String;
 
-use rcdom::{ArcDom, Handle, NodeData};
+use arcdom::{ArcDom, Handle, NodeData};
 use xml5ever::driver::parse_document;
 use xml5ever::tendril::TendrilSink;
 

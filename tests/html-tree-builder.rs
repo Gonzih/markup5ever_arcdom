@@ -7,7 +7,7 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-extern crate markup5ever_rcdom as rcdom;
+extern crate markup5ever_arcdom as arcdom;
 extern crate rustc_test as test;
 #[macro_use]
 extern crate html5ever;
@@ -25,10 +25,10 @@ use std::path::Path;
 use std::{env, fs, io};
 use test::{DynTestName, TestDesc, TestDescAndFn, TestFn};
 
+use arcdom::{ArcDom, Handle, NodeData};
 use html5ever::tendril::{StrTendril, TendrilSink};
 use html5ever::{parse_document, parse_fragment, ParseOpts};
 use html5ever::{LocalName, QualName};
-use rcdom::{Handle, NodeData, ArcDom};
 
 fn parse_tests<It: Iterator<Item = String>>(mut lines: It) -> Vec<HashMap<String, String>> {
     let mut tests = vec![];
@@ -65,7 +65,7 @@ fn parse_tests<It: Iterator<Item = String>>(mut lines: It) -> Vec<HashMap<String
                     val.push_str(&line);
                     val.push('\n');
                 }
-            },
+            }
         }
     }
 
@@ -93,19 +93,19 @@ fn serialize(buf: &mut String, indent: usize, handle: Handle) {
                 buf.push_str(&format!(" \"{}\" \"{}\"", public_id, system_id));
             }
             buf.push_str(">\n");
-        },
+        }
 
         NodeData::Text { ref contents } => {
             buf.push_str("\"");
             buf.push_str(&contents.borrow());
             buf.push_str("\"\n");
-        },
+        }
 
         NodeData::Comment { ref contents } => {
             buf.push_str("<!-- ");
             buf.push_str(&contents);
             buf.push_str(" -->\n");
-        },
+        }
 
         NodeData::Element {
             ref name,
@@ -136,7 +136,7 @@ fn serialize(buf: &mut String, indent: usize, handle: Handle) {
                 }
                 buf.push_str(&format!("{}=\"{}\"\n", attr.name.local, attr.value));
             }
-        },
+        }
 
         NodeData::ProcessingInstruction { .. } => unreachable!(),
     }
@@ -223,7 +223,7 @@ fn make_test_desc_with_scripting_flag(
                     for child in dom.document.children.borrow().iter() {
                         serialize(&mut result, 1, child.clone());
                     }
-                },
+                }
                 Some(ref context) => {
                     let dom = parse_fragment(ArcDom::default(), opts, context.clone(), vec![])
                         .one(data.clone());
@@ -234,7 +234,7 @@ fn make_test_desc_with_scripting_flag(
                     for child in root.children.borrow().iter() {
                         serialize(&mut result, 1, child.clone());
                     }
-                },
+                }
             };
             let len = result.len();
             result.truncate(len - 1); // drop the trailing newline

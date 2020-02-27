@@ -8,7 +8,7 @@
 // except according to those terms.
 
 use markup5ever::{namespace_url, ns};
-use markup5ever_rcdom::*;
+use markup5ever_arcdom::*;
 use rustc_test::{DynTestFn, DynTestName, TestDesc, TestDescAndFn};
 use std::collections::{HashMap, HashSet};
 use std::ffi::OsStr;
@@ -60,7 +60,7 @@ fn parse_tests<It: Iterator<Item = String>>(mut lines: It) -> Vec<HashMap<String
                     val.push_str(&line);
                     val.push('\n');
                 }
-            },
+            }
         }
     }
 
@@ -88,13 +88,13 @@ fn serialize(buf: &mut String, indent: usize, handle: Handle) {
                 buf.push_str(&format!(" \"{}\" \"{}\"", public_id, system_id));
             }
             buf.push_str(">\n");
-        },
+        }
 
         NodeData::Text { ref contents } => {
             buf.push_str("\"");
             buf.push_str(&contents.borrow());
             buf.push_str("\"\n");
-        },
+        }
 
         NodeData::ProcessingInstruction {
             ref target,
@@ -105,13 +105,13 @@ fn serialize(buf: &mut String, indent: usize, handle: Handle) {
             buf.push_str(" ");
             buf.push_str(&contents);
             buf.push_str("?>\n");
-        },
+        }
 
         NodeData::Comment { ref contents } => {
             buf.push_str("<!-- ");
             buf.push_str(&contents);
             buf.push_str(" -->\n");
-        },
+        }
 
         NodeData::Element {
             ref name,
@@ -155,7 +155,7 @@ fn serialize(buf: &mut String, indent: usize, handle: Handle) {
 
                 buf.push_str(&format!("{}=\"{}\"\n", attr.name.local, attr.value));
             }
-        },
+        }
     }
 
     for child in node.children.borrow().iter() {
