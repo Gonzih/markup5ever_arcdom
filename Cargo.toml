@@ -8,7 +8,7 @@ readme = "README.md"
 documentation = "https://docs.rs/markup5ever_arcdom"
 categories = [ "parser-implementations", "web-programming" ]
 edition = "2018"
-publish = false
+publish = true
 
 [lib]
 path = "lib.rs"
