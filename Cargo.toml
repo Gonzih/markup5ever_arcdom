@@ -2,6 +2,7 @@
 name = "markup5ever_arcdom"
 version = "0.1.0"
 license = "MIT / Apache-2.0"
+authors = ["Max Gonzih <gonzih@gmail.com>"]
 repository = "https://github.com/Gonzih/markup5ever_arcdom"
 description = "Thread safe version of RcDom from html5ever project."
 readme = "README.md"
