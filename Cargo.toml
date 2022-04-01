@@ -16,7 +16,7 @@ path = "lib.rs"
 
 [dependencies]
 tendril = "0.4"
-html5ever = { version = "0.25" }
+html5ever = { version = "0.26" }
 markup5ever = { version = "0.10" }
 xml5ever = { version = "0.16" }
 
