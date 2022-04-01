@@ -23,7 +23,8 @@ shell:
 	nix-shell shell.nix
 
 rust-setup:
-	rustup default nightly
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+	rustup default stable
 
 publish:
 	nix-shell shell.nix --run 'cargo publish'
@@ -31,6 +32,3 @@ publish:
 submodules:
 	git submodule init
 	git submodule update
-
-test-via-docker:
-	docker run -t -v $(shell pwd):/workdir nixos/nix sh -c 'cd /workdir && nix-shell shell.nix --run "make rust-setup test"'
